@@ -1,24 +1,23 @@
 
+# Temporal + Langchain ReAct AI Agent 可观测工具调用实现
 
-# Temporal + Langchain ReAct AI Agent Tutorial
+> 项目地址：[https://github.com/Frederic-Zhou/temporal_agent_workflow](https://github.com/Frederic-Zhou/temporal_agent_workflow)
 
-> Project repo: [https://github.com/Frederic-Zhou/temporal_agent_workflow](https://github.com/Frederic-Zhou/temporal_agent_workflow)
-
-This tutorial will walk you through building an observable, extensible AI Agent system based on Temporal and Langchain. We'll use a ReAct Agent for automatic reasoning and tool invocation, and every step can be traced in the Temporal workflow. Hope you enjoy the hands-on process—feel free to reach out and share your ideas!
-
----
-
-## 1. Environment Setup
-
-1. Start Temporal Server (docker-compose is recommended, just a few minutes)
-2. Install dependencies (managed by poetry, just run `poetry install`)
-3. Set up your API KEY (if you want to use external LLMs like Gemini)
+这篇教程会和你一起，从零搭建一个基于 Temporal 和 Langchain 的可观测 AI Agent 系统。我们会用 ReAct Agent 自动推理、自动调用工具，并且每一步都能在 Temporal 工作流里追踪到。希望你能在动手实践中收获乐趣，也欢迎随时交流你的想法！
 
 ---
 
-## 2. Design the Agent Workflow
+## 1. 环境准备
 
-The core logic is in `workflows.py`, where we use a Temporal workflow to orchestrate LLM reasoning and tool calls:
+1. 启动 Temporal Server（推荐用 docker-compose，几分钟搞定）
+2. 安装依赖（项目用 poetry 管理，直接 `poetry install` 即可）
+3. 配置好 API KEY（如果你要用外部 LLM，比如 Gemini）
+
+---
+
+## 2. 设计 Agent 工作流
+
+核心逻辑都在 `workflows.py`，我们用 Temporal 工作流来串联 LLM 推理和工具调用：
 
 ```python
 @workflow.defn
@@ -53,9 +52,9 @@ class AiAgentWorkflow:
 
 ---
 
-## 3. Implement Tools and LLM Calls
+## 3. 实现工具（Tool）与 LLM 调用
 
-Define your LLM and tool logic in `activities.py`:
+在 `activities.py` 中定义 LLM 及工具逻辑：
 
 ```python
 @activity.defn
@@ -78,13 +77,13 @@ async def division(params: divisionParams) -> int:
     return params.a // params.b
 ```
 
-You can add more tools as you need—just implement an activity and register it with the worker.
+你可以根据自己的需求加更多工具，只要实现 activity 并注册到 worker 就行。
 
 ---
 
-## 4. Start the Worker
+## 4. 启动 Worker
 
-`worker.py` registers and runs all workflows and activities. You usually don't need to change much here:
+`worker.py` 负责注册并运行所有 workflow 和 activity，基本不用怎么改，直接用：
 
 ```python
 async def main():
@@ -101,9 +100,9 @@ async def main():
 
 ---
 
-## 5. Start a Workflow (Submit a Task)
+## 5. 启动工作流（提交任务）
 
-Use `starter.py` to submit an Agent reasoning task and see the full process in action:
+用 `starter.py` 提交一个 Agent 推理任务，体验一下完整流程：
 
 ```python
 async def main():
@@ -119,22 +118,22 @@ async def main():
 
 ---
 
-## 6. Observability & Debugging
+## 6. 可观测性与调试
 
-With the Temporal UI (default http://localhost:8233), you can see every LLM reasoning and tool call's input, output, duration, and status in real time. Debugging and tracing are super convenient.
-
----
-
-## 7. Extensions & Advanced Usage
-
-- Add any tool you want—just implement a new activity and register it with the worker.
-- Integrate more LLMs or external APIs.
-- Use this project as a template to quickly build your own observable AI Agent system.
+通过 Temporal UI（默认 http://localhost:8233），你可以实时看到每一次 LLM 推理、工具调用的输入输出、耗时和状态，调试和排查都很方便。
 
 ---
 
-## 8. Reference & Community
+## 7. 扩展与进阶
 
-Full code and more details: [https://github.com/Frederic-Zhou/temporal_agent_workflow](https://github.com/Frederic-Zhou/temporal_agent_workflow)
+- 想加什么工具都可以，直接写 activity 并注册到 worker。
+- 可以集成更多 LLM、外部 API。
+- 也可以把这个项目当模板，快速搭建自己的可观测 AI Agent。
 
-If you have any questions, ideas, or just want to chat, feel free to reach out! You can also open an issue on GitHub or join the Temporal community.
+---
+
+## 8. 参考与社区
+
+完整代码和更多细节都在：[https://github.com/Frederic-Zhou/temporal_agent_workflow](https://github.com/Frederic-Zhou/temporal_agent_workflow)
+
+如果你有任何问题、想法或者想一起玩，欢迎随时联系我讨论！也可以在 Temporal 社区或 GitHub 提 issue。
