@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "workflows"
+version = "0.1.0"
+description = ""
+authors = ["Frederic <zetachow@163.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+temporalio = "^1.17.0"
+fastapi = "^0.116.1"
+uvicorn = "^0.35.0"
+langchain = "^0.3.27"
+langchain-google-genai = "^2.1.10"
+load-dotenv = "^0.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
