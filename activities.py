@@ -10,7 +10,7 @@ async def llm_chat(messages: list) -> str:
     load_dotenv()
 
     llm = init_chat_model("gemini-2.0-flash", model_provider="google_genai")
-    llm_with_tools = llm.bind_tools([add, division])
+    llm_with_tools = llm.bind_tools([add, Division])
 
     response = llm_with_tools.invoke(messages)
 
@@ -35,7 +35,7 @@ class divisionParams(BaseModel):
 
 
 @activity.defn
-async def division(params: divisionParams) -> int:
+async def Division(params: divisionParams) -> int:
     """Divide two integers.
 
     Args:

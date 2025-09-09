@@ -6,7 +6,7 @@ from temporalio.client import Client
 async def main():
     client = await Client.connect("localhost:7233")
     result = await client.execute_workflow(
-        "AiAgentWorkflow",
+        "AiAgentWorkflow_WithApprovals",
         "what is 1 divided by 2 then add 1?",
         id=f"AI-Agent-workflow-{uuid.uuid4()}",
         task_queue="my-task-queue",

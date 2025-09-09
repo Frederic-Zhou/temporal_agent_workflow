@@ -2,7 +2,8 @@ import asyncio
 from temporalio.client import Client
 from temporalio.worker import Worker
 from workflows import AiAgentWorkflow
-from activities import llm_chat, add, division
+from workflows_with_approvals import AiAgentWorkflow_WithApprovals
+from activities import llm_chat, add, Division
 
 
 async def main():
@@ -10,8 +11,8 @@ async def main():
     worker = Worker(
         client,
         task_queue="my-task-queue",
-        workflows=[AiAgentWorkflow],
-        activities=[llm_chat, add, division],
+        workflows=[AiAgentWorkflow, AiAgentWorkflow_WithApprovals],
+        activities=[llm_chat, add, Division],
     )
     print("Worker started.")
     await worker.run()
