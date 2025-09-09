@@ -6,11 +6,10 @@ from langchain_core.messages import HumanMessage, ToolMessage, AIMessage
 @workflow.defn
 class AiAgentWorkflow:
     @workflow.run
-    async def run(self, query: str) -> str:
+    async def run(self, query: str, max_steps: int = 8) -> str:
         messages = [HumanMessage(query)]
-        MAX_STEPS = 8
 
-        for _ in range(MAX_STEPS):
+        for _ in range(max_steps):
             ai_msg = await workflow.execute_activity(
                 "llm_chat",
                 messages,
@@ -38,14 +37,14 @@ class AiAgentWorkflow:
             else:
                 return messages[-1].content
 
-        # 返回messages中最后一个 AIMessage 的 content
+        # Return the content of the last AIMessage in messages
         last_ai_message = next(
             (msg.content for msg in reversed(messages) if isinstance(msg, AIMessage)),
             None,
         )
 
         return (
-            f"Exceeded maximum steps ({MAX_STEPS}), last AI reply: {last_ai_message}"
+            f"Exceeded maximum steps ({max_steps}), last AI reply: {last_ai_message}"
             if last_ai_message
-            else f"Exceeded maximum steps ({MAX_STEPS}), and no valid AI reply found."
+            else f"Exceeded maximum steps ({max_steps}), and no valid AI reply found."
         )
