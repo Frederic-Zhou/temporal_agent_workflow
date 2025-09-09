@@ -7,7 +7,7 @@ async def main():
     client = await Client.connect("localhost:7233")
     result = await client.execute_workflow(
         "AiAgentWorkflow_WithApprovals",
-        "what is 1 divided by 2 then add 1?",
+        args=["what is 1 divided by 2 then add 1?", 10],
         id=f"AI-Agent-workflow-{uuid.uuid4()}",
         task_queue="my-task-queue",
     )
